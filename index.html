@@ -1,1 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Electricity Price Calculator (IQD)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #f0f2f5;
+    }
+    .container {
+      background: white;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 1.5rem;
+      width: 100%;
+      padding: 0.7rem;
+      font-size: 1rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .results {
+      margin-top: 2rem;
+      background: #f9f9f9;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+    .results p {
+      margin: 0.5rem 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Electricity Price Calculator (IQD)</h2>
+    <label for="kw">Total kW Used</label>
+    <input type="number" id="kw" placeholder="Enter total kW used">
+
+    <label for="start">Start Date</label>
+    <input type="date" id="start">
+
+    <label for="end">End Date</label>
+    <input type="date" id="end">
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div class="results" id="results" style="display:none;">
+      <h3>Results</h3>
+      <p><strong>Months Difference:</strong> <span id="months"></span></p>
+      <p><strong>Monthly Usage (kW):</strong> <span id="monthlyKW"></span></p>
+      <p><strong>Monthly Price (IQD):</strong> <span id="monthlyPrice"></span></p>
+      <p><strong>Total Price (IQD):</strong> <span id="totalPrice"></span></p>
+      <p><strong>Unit Price (IQD/kW):</strong> <span id="unitPrice"></span></p>
+    </div>
+  </div>
+
+  <script>
+    function calculateTieredPrice(kwh) {
+      let price = 0;
+      if (kwh <= 400) {
+        price = kwh * 72;
+      } else if (kwh <= 800) {
+        price = 400 * 72 + (kwh - 400) * 108;
+      } else if (kwh <= 1200) {
+        price = 400 * 72 + 400 * 108 + (kwh - 800) * 175;
+      } else if (kwh <= 1600) {
+        price = 400 * 72 + 400 * 108 + 400 * 175 + (kwh - 1200) * 265;
+      } else {
+        price = 400 * 72 + 400 * 108 + 400 * 175 + 400 * 265 + (kwh - 1600) * 350;
+      }
+      return price;
+    }
+
+    function calculate() {
+      const kw = parseFloat(document.getElementById("kw").value);
+      const startDate = new Date(document.getElementById("start").value);
+      const endDate = new Date(document.getElementById("end").value);
+
+      if (isNaN(kw) || !startDate || !endDate || endDate <= startDate) {
+        alert("Please enter valid inputs.");
+        return;
+      }
+
+      const monthDiff = (endDate.getFullYear() - startDate.getFullYear()) * 12 +
+                        (endDate.getMonth() - startDate.getMonth());
+
+      const monthlyKW = kw / monthDiff;
+      const monthlyPrice = calculateTieredPrice(monthlyKW);
+      const totalPrice = monthlyPrice * monthDiff;
+      const unitPrice = totalPrice / kw;
+
+      document.getElementById("months").textContent = monthDiff;
+      document.getElementById("monthlyKW").textContent = monthlyKW.toFixed(2);
+      document.getElementById("monthlyPrice").textContent = monthlyPrice.toFixed(2) + " IQD";
+      document.getElementById("totalPrice").textContent = totalPrice.toFixed(2) + " IQD";
+      document.getElementById("unitPrice").textContent = unitPrice.toFixed(2) + " IQD/kW";
+
+      document.getElementById("results").style.display = "block";
+    }
+  </script>
+</body>
+</html>
 
