@@ -67,7 +67,7 @@
 <body>
   <div class="container">
     <h2>Electricity Price Calculator Kurdistan (IQD)</h2>
-    
+
     <label for="kw">Total kW Used</label>
     <input type="number" id="kw" placeholder="Enter total kW used">
 
@@ -86,6 +86,7 @@
       <p><strong>Monthly Price (IQD):</strong> <span id="monthlyPrice"></span></p>
       <p><strong>Total Price (IQD):</strong> <span id="totalPrice"></span></p>
       <p><strong>Unit Price (IQD/kW):</strong> <span id="unitPrice"></span></p>
+      <p><strong>Average Monthly Current (AMP):</strong> <span id="averageAmp"></span></p>
     </div>
   </div>
 
@@ -134,11 +135,14 @@
       const totalPrice = monthlyPrice * monthDiff;
       const unitPrice = totalPrice / kw;
 
+      const averageAmp = (monthlyKW * 1000) / (220 * 30 * 24); // 220V, 30 days/month, 24 hrs/day
+
       document.getElementById("months").textContent = monthDiff.toFixed(2);
       document.getElementById("monthlyKW").textContent = monthlyKW.toFixed(2);
       document.getElementById("monthlyPrice").textContent = monthlyPrice.toFixed(2) + " IQD";
       document.getElementById("totalPrice").textContent = totalPrice.toFixed(2) + " IQD";
       document.getElementById("unitPrice").textContent = unitPrice.toFixed(2) + " IQD/kW";
+      document.getElementById("averageAmp").textContent = averageAmp.toFixed(2) + " A";
 
       document.getElementById("results").style.display = "block";
     }
