@@ -85,6 +85,8 @@
       <p><strong>Total Price (IQD):</strong> <span id="totalPrice"></span></p>
       <p><strong>Unit Price (IQD/kW):</strong> <span id="unitPrice"></span></p>
       <p><strong>Average Monthly Current (AMP):</strong> <span id="averageAmp"></span></p>
+      <p><strong>1 AMP Price (IQD):</strong> <span id="ampPrice"></span></p>
+      <p><strong>Difference in Days:</strong> <span id="dayDiff"></span></p>
     </div>
   </div>
 
@@ -132,12 +134,15 @@
       const monthlyPrice = calculateTieredPrice(monthlyKW);
       const totalPrice = monthlyPrice * monthDiff;
       const unitPrice = totalPrice / kw;
-      const averageAmp = (monthlyKW * 1000) / (220 * 30 * 24); // 220V, 30 days/month, 24 hrs/day
+      const averageAmp = (monthlyKW * 1000) / (220 * 30 * 24);
+      const ampPrice = totalPrice / averageAmp;
 
       document.getElementById("totalUsedKW").textContent = kw.toFixed(2);
       document.getElementById("totalPrice").textContent = totalPrice.toFixed(2) + " IQD";
       document.getElementById("unitPrice").textContent = unitPrice.toFixed(2) + " IQD/kW";
       document.getElementById("averageAmp").textContent = averageAmp.toFixed(2) + " A";
+      document.getElementById("ampPrice").textContent = ampPrice.toFixed(2) + " IQD";
+      document.getElementById("dayDiff").textContent = diffInDays.toFixed(0) + " days";
 
       document.getElementById("results").style.display = "block";
     }
