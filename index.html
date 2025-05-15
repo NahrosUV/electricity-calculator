@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Electricity Price Calculator (IQD)</title>
+  <title>Electricity Price Calculator Kurdistan (IQD)</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -66,8 +66,8 @@
 </head>
 <body>
   <div class="container">
-    <h2>Electricity Price Calculator (IQD)</h2>
-    
+    <h2>Electricity Price Calculator Kurdistan (IQD)</h2>
+
     <label for="kw">Total kW Used</label>
     <input type="number" id="kw" placeholder="Enter total kW used">
 
@@ -81,16 +81,15 @@
 
     <div class="results" id="results" style="display:none;">
       <h3>Results</h3>
-      <p><strong>Months Difference:</strong> <span id="months"></span></p>
-      <p><strong>Monthly Usage (kW):</strong> <span id="monthlyKW"></span></p>
-      <p><strong>Monthly Price (IQD):</strong> <span id="monthlyPrice"></span></p>
+      <p><strong>Total Used kW:</strong> <span id="totalUsedKW"></span></p>
       <p><strong>Total Price (IQD):</strong> <span id="totalPrice"></span></p>
       <p><strong>Unit Price (IQD/kW):</strong> <span id="unitPrice"></span></p>
+      <p><strong>Average Monthly Current (AMP):</strong> <span id="averageAmp"></span></p>
     </div>
   </div>
 
   <footer>
-    © 2025 UV AHMED. All rights reserved.
+    © 2025 UV. RABAR All rights reserved.
   </footer>
 
   <script>
@@ -133,12 +132,12 @@
       const monthlyPrice = calculateTieredPrice(monthlyKW);
       const totalPrice = monthlyPrice * monthDiff;
       const unitPrice = totalPrice / kw;
+      const averageAmp = (monthlyKW * 1000) / (220 * 30 * 24); // 220V, 30 days/month, 24 hrs/day
 
-      document.getElementById("months").textContent = monthDiff.toFixed(2);
-      document.getElementById("monthlyKW").textContent = monthlyKW.toFixed(2);
-      document.getElementById("monthlyPrice").textContent = monthlyPrice.toFixed(2) + " IQD";
+      document.getElementById("totalUsedKW").textContent = kw.toFixed(2);
       document.getElementById("totalPrice").textContent = totalPrice.toFixed(2) + " IQD";
       document.getElementById("unitPrice").textContent = unitPrice.toFixed(2) + " IQD/kW";
+      document.getElementById("averageAmp").textContent = averageAmp.toFixed(2) + " A";
 
       document.getElementById("results").style.display = "block";
     }
